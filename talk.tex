@@ -1,0 +1,127 @@
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+
+\title{Pex: Theory and Practice}
+\author{Moshe Zadka -- https://cobordism.com}
+\date{Pyninsula April 2018}
+ 
+\begin{document}
+ 
+\frame{\titlepage}
+
+\maketitle
+
+\begin{frame}
+\frametitle{Python start-up}
+\begin{lstlisting}
+$ python /some/script.py
+\end{lstlisting}
+Causes
+\begin{listlisting}
+"/some" in sys.path
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Python start-up}
+\begin{lstlisting}
+$ python /some/script/
+\end{lstlisting}
+Same as
+\begin{lstlisting}
+$ python /some/script/__main__.py
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Python start-up}
+\begin{lstlisting}
+$ python /some/script/__main__.py
+\end{lstlisting}
+Causes
+\begin{listlisting}
+"/some/script" in sys.path
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Python start-up}
+\begin{lstlisting}
+/some/script/__main__.py
+             foo.py
+             bar/__init__.py
+                 something.py
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Python start-up}
+\begin{lstlisting}
+$ python /some/script.zip
+\end{lstlisting}
+Treats zip archive like directory.
+\end{frame}
+
+\begin{frame}
+\frametitle{Python start-up}
+Zip is an ending-oriented format:
+\begin{lstlisting}
+$ (echo "hello";cat foo.zip) > bar.zip
+$ unzip -t bar.zip 
+Archive:  bar.zip
+warning [bar.zip]:  6 extra bytes at beginning or within zipfile
+  (attempting to process anyway)
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Python start-up}
+\begin{lstlisting}
+$ HERE=$(pwd)
+$ (cd /some/script/ && zip $HERE/stuff.zip -r .)
+$ (echo '#!/usr/bin/python3';cat stuff.zip) > runnable
+$ chmod +x runnable
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Productionizing -- hard}
+\begin{itemize}
+\item Lots of edge cases!
+\item Reimplement? No!
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Pex -- roll up your libraries}
+Supports a lot!
+\end{frame}
+
+\begin{frame}
+\frametitle{Pex -- recipe}
+\begin{lstlisting}
+$ pip wheel --wheel-dir /some/dir requirements.txt # ...
+$ pex --no-index --find-links /some/dir requirements.txt
+      -m ...
+      -o ...
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}
+\frametitle{Pex -- Python recipe}
+\begin{lstlisting}
+$ pip wheel --wheel-dir /some/dir requirements.txt # ...
+\end{lstlisting}
+
+\begin{lstlisting}
+builder = pex_builder.PEXBuilder()
+builder.set_entry_point(...)
+builder.set_shebang('/usr/bin/python3')
+for dist in os.listdir('/some/dir'):
+    dist = os.path.join(wheelhouse, dist)
+    builder.add_dist_location(dist)
+builder.build(...)
+\end{lstlisting}
+\end{frame}
+
+\end{document}
