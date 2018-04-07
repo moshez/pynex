@@ -11,18 +11,18 @@
 
 \maketitle
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Python start-up}
 \begin{lstlisting}
 $ python /some/script.py
 \end{lstlisting}
 Causes
-\begin{listlisting}
+\begin{lstlisting}
 "/some" in sys.path
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Python start-up}
 \begin{lstlisting}
 $ python /some/script/
@@ -33,18 +33,18 @@ $ python /some/script/__main__.py
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Python start-up}
 \begin{lstlisting}
 $ python /some/script/__main__.py
 \end{lstlisting}
 Causes
-\begin{listlisting}
+\begin{lstlisting}
 "/some/script" in sys.path
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Python start-up}
 \begin{lstlisting}
 /some/script/__main__.py
@@ -54,7 +54,7 @@ Causes
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Python start-up}
 \begin{lstlisting}
 $ python /some/script.zip
@@ -62,7 +62,7 @@ $ python /some/script.zip
 Treats zip archive like directory.
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Python start-up}
 Zip is an ending-oriented format:
 \begin{lstlisting}
@@ -74,7 +74,7 @@ warning [bar.zip]:  6 extra bytes at beginning or within zipfile
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Python start-up}
 \begin{lstlisting}
 $ HERE=$(pwd)
@@ -84,7 +84,7 @@ $ chmod +x runnable
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Productionizing -- hard}
 \begin{itemize}
 \item Lots of edge cases!
@@ -92,12 +92,12 @@ $ chmod +x runnable
 \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Pex -- roll up your libraries}
 Supports a lot!
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Pex -- recipe}
 \begin{lstlisting}
 $ pip wheel --wheel-dir /some/dir requirements.txt # ...
@@ -107,12 +107,15 @@ $ pex --no-index --find-links /some/dir requirements.txt
 \end{lstlisting}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Pex -- Python recipe}
 \begin{lstlisting}
 $ pip wheel --wheel-dir /some/dir requirements.txt # ...
 \end{lstlisting}
+\end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Pex -- Python recipe}
 \begin{lstlisting}
 builder = pex_builder.PEXBuilder()
 builder.set_entry_point(...)
@@ -122,6 +125,32 @@ for dist in os.listdir('/some/dir'):
     builder.add_dist_location(dist)
 builder.build(...)
 \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Pex only wheels}
+Pex dependency resolution different from pip:
+why worry?
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caveats}
+No manylinux wheels
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caveats}
+Python installed in shebang
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caveats}
+No windows support
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Caveats}
+No PyPy support
 \end{frame}
 
 \end{document}
