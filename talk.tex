@@ -12,6 +12,15 @@
 \maketitle
 
 \begin{frame}[fragile]
+\frametitle{Packaging}
+\begin{itemize}
+\item First step
+\item Many options
+\item In-depth: Pex
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
 \frametitle{Python start-up}
 \begin{lstlisting}
 $ python /some/script.py
@@ -64,6 +73,12 @@ Treats zip archive like directory.
 
 \begin{frame}[fragile]
 \frametitle{Python start-up}
+"One big pile of garbage is better than two small piles of garbage."\\
+-- Alice's Restaurant
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Python start-up}
 Zip is an ending-oriented format:
 \begin{lstlisting}
 $ (echo "hello";cat foo.zip) > bar.zip
@@ -79,7 +94,8 @@ warning [bar.zip]:  6 extra bytes at beginning or within zipfile
 \begin{lstlisting}
 $ HERE=$(pwd)
 $ (cd /some/script/ && zip $HERE/stuff.zip -r .)
-$ (echo '#!/usr/bin/python3';cat stuff.zip) > runnable
+$ (echo '#!/usr/bin/python3';cat stuff.zip) \
+  > runnable
 $ chmod +x runnable
 \end{lstlisting}
 \end{frame}
@@ -100,9 +116,12 @@ Supports a lot!
 \begin{frame}[fragile]
 \frametitle{Pex -- recipe}
 \begin{lstlisting}
-$ pip wheel --wheel-dir /some/dir requirements.txt # ...
-$ pex --no-index --find-links /some/dir requirements.txt
-      -m ...
+$ pip wheel --wheel-dir \
+  --no-binary :all: \
+  /some/dir requirements.txt # ...
+$ pex --no-index --find-links \
+  /some/dir requirements.txt \
+      -m ... \
       -o ...
 \end{lstlisting}
 \end{frame}
@@ -110,7 +129,8 @@ $ pex --no-index --find-links /some/dir requirements.txt
 \begin{frame}[fragile]
 \frametitle{Pex -- Python recipe}
 \begin{lstlisting}
-$ pip wheel --wheel-dir /some/dir requirements.txt # ...
+$ pip wheel --wheel-dir \
+  /some/dir requirements.txt # ...
 \end{lstlisting}
 \end{frame}
 
